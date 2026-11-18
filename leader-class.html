@@ -10,10 +10,11 @@
 <body>
 <header><strong>116 領袖班宣導簡報</strong><a href="./">回到研習成果首頁</a></header>
 <main class="stage"><img id="slide" class="slide" src="./leader-slides/slide-01.png" alt="第 1 張投影片"><div class="hint">使用 ← → 鍵或下方按鈕翻頁</div></main>
-<nav class="nav"><button id="prev" type="button">上一張</button><span id="count" class="count">1 / 16</span><button id="next" type="button">下一張</button></nav>
+<nav class="nav"><button id="prev" type="button">上一張</button><span id="count" class="count">1 / 16</span><button id="next" type="button">下一張</button><button id="fullscreen" type="button">全螢幕</button></nav>
 <script>
 const total=16;let current=1;const img=document.getElementById('slide'),count=document.getElementById('count');
 function show(n){current=Math.max(1,Math.min(total,n));const id=String(current).padStart(2,'0');img.src=`./leader-slides/slide-${id}.png`;img.alt=`第 ${current} 張投影片`;count.textContent=`${current} / ${total}`;}
-document.getElementById('prev').onclick=()=>show(current-1);document.getElementById('next').onclick=()=>show(current+1);document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')show(current-1);if(e.key==='ArrowRight'||e.key===' ')show(current+1);});
+document.getElementById('prev').onclick=()=>show(current-1);document.getElementById('next').onclick=()=>show(current+1);const fs=document.getElementById('fullscreen');fs.onclick=async()=>{if(!document.fullscreenElement){await document.documentElement.requestFullscreen();}else{await document.exitFullscreen();}};document.addEventListener('fullscreenchange',()=>{fs.textContent=document.fullscreenElement?'退出全螢幕':'全螢幕';});document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')show(current-1);if(e.key==='ArrowRight'||e.key===' ')show(current+1);});
 let startX=null;document.querySelector('.stage').addEventListener('touchstart',e=>startX=e.touches[0].clientX,{passive:true});document.querySelector('.stage').addEventListener('touchend',e=>{if(startX===null)return;const dx=e.changedTouches[0].clientX-startX;if(Math.abs(dx)>40)show(current+(dx<0?1:-1));startX=null},{passive:true});
 </script></body></html>
+
